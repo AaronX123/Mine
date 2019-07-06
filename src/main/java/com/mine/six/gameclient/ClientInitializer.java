@@ -6,12 +6,16 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
+import io.netty.handler.codec.serialization.ClassResolvers;
+import io.netty.handler.codec.serialization.ObjectDecoder;
+import io.netty.handler.codec.serialization.ObjectEncoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
 
 /**
- * @author Aaron
+ *  @author 肖又铭
+ *  @author 李康
  */
 public class ClientInitializer extends ChannelInitializer<SocketChannel> {
     @Override
@@ -21,6 +25,10 @@ public class ClientInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new LengthFieldPrepender(4));
         pipeline.addLast(new StringDecoder(CharsetUtil.UTF_8));
         pipeline.addLast(new StringEncoder(CharsetUtil.UTF_8));
+        pipeline.addLast(new ObjectDecoder(1024 * 1024,
+                ClassResolvers.weakCachingConcurrentResolver(this
+                        .getClass().getClassLoader())));
+        pipeline.addLast(new ObjectEncoder());
         pipeline.addLast(new ClientStateHandler());
     }
 }

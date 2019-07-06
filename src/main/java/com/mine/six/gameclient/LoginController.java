@@ -12,7 +12,8 @@ import java.io.IOException;
 
 /**
  * 登录界面的控制
- * @author xiaoyouming
+ *  @author 肖又铭
+ *  @author 李康
  */
 public class LoginController {
 
@@ -29,7 +30,7 @@ public class LoginController {
     @FXML
     private JFXButton register;
 
-    public void setloginController(Main app){
+    public void setLoginController(Main app){
         this.app=app;
     }
     @FXML

@@ -3,6 +3,7 @@ package com.mine.six.server;
 import com.mine.six.gameclient.GameStatus;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -28,8 +29,8 @@ public class Server {
     bootstrap.group(boss,worker).channel(NioServerSocketChannel.class)
            .childHandler(new ServerInitializer());
         try {
-            Channel channel=bootstrap.bind(8000).sync().channel();
-
+            ChannelFuture channelFuture=bootstrap.bind(10800).sync();
+            channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }finally {

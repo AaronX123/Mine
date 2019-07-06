@@ -20,7 +20,8 @@ import java.util.Random;
 
 /**
  * 游戏界面的控制
- * @author xiaoyouming
+ * @author 肖又铭
+ * @author 李康
  */
 public class GameController{
 
@@ -114,7 +115,26 @@ public class GameController{
                 pane.add(btn, j, i);
             }
         }
+        GetGameState s=new GetGameState();
+        s.start();
         TimeCount.Start();
+    }
+    private class GetGameState extends Thread{
+        @Override
+        public void run() {
+            Client client=new Client();
+            Thread t1=new Thread(client);
+            t1.start();
+            while (true){
+                //client.setMsg("你好");
+                client.setGameStatus(getGameState());
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     public GameStatus getGameState(){
         return new GameStatus(btns,pressed,mineMap,nums,flags,width,height,mineNum,flagNum,pressedNum,isEnd);

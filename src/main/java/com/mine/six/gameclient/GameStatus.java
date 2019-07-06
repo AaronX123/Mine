@@ -2,15 +2,26 @@ package com.mine.six.gameclient;
 
 import javafx.scene.control.Button;
 
+import java.io.Serializable;
+
 /**
- * @author xiaoyouming
+ *  @author 肖又铭
+ *  @author 李康
  */
-public class GameStatus {
+public class GameStatus implements Serializable {
     String sessionId;
     /**
      * 按钮
      */
     Button[][] btns;
+
+    @Override
+    public String toString() {
+        return "GameStatus{" +
+                "sessionId='" + sessionId + '\'' +
+                '}';
+    }
+
     /**
      * 对应的是否按下
      */

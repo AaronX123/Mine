@@ -11,7 +11,8 @@ import java.io.IOException;
 
 /**
  * 程序开始
- * @author xiaoyouming
+ *  @author 肖又铭
+ *  @author 李康
  */
 public class Main extends Application {
 
@@ -24,7 +25,7 @@ public class Main extends Application {
         primaryStage.setTitle("扫雷");
         primaryStage.getIcons().add(new Image("/imgs/timg.jpg"));
         LoginController lc=loader.getController();
-        lc.setloginController(this);
+        lc.setLoginController(this);
         primaryStage.setScene(new Scene(root, 600, 360));
         primaryStage.show();
     }

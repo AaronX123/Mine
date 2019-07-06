@@ -1,5 +1,7 @@
 package com.mine.six.server;
 
+import com.mine.six.gameclient.GameStatus;
+
 import java.io.Serializable;
 
 /**

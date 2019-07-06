@@ -1,4 +1,4 @@
-package com.mine.six.view;
+package com.mine.six.gameclient;
 
 import com.mine.six.utils.TimeCount;
 import javafx.event.ActionEvent;
@@ -116,7 +116,9 @@ public class GameController{
         }
         TimeCount.Start();
     }
-
+    public GameStatus getGameState(){
+        return new GameStatus(btns,pressed,mineMap,nums,flags,width,height,mineNum,flagNum,pressedNum,isEnd);
+    }
 
     public int countMinesAround(int x, int y){
         int res = 0;

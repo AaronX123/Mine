@@ -1,4 +1,4 @@
-package com.mine.six.view;
+package com.mine.six.gameclient;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

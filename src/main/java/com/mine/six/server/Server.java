@@ -1,48 +1,56 @@
 package com.mine.six.server;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
+import com.mine.six.gameclient.GameStatus;
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.Channel;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.apache.commons.lang3.StringUtils;
+
+import java.nio.channels.SocketChannel;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author xiaoyouming
  */
 public class Server {
-    /**
-     * 服务器刷新次数
-     */
-    private int tickrate;
-    /**
-     * 用于保证输入相同的会话代码来实现进入同一个游戏
-     */
-    private ConcurrentHashMap<Integer,GameStatus> SessionMap;
+    private static ConcurrentHashMap hashMap=new ConcurrentHashMap();
     private int port;
-    private String ip;
-    private DatagramSocket serverSocket=null;
-    private DatagramPacket datagramPacket=null;
-    byte[] buffer=new byte[1024];
-
-    public void StartServer(int port){
+    private SocketChannel socketChannel;
+    private ServerBootstrap bootstrap;
+    Server(){
+    }
+    public void start(){
+    EventLoopGroup boss=new NioEventLoopGroup();
+    EventLoopGroup worker=new NioEventLoopGroup();
+    bootstrap=new ServerBootstrap();
+    bootstrap.group(boss,worker).channel(NioServerSocketChannel.class)
+           .childHandler(new ServerInitializer());
         try {
-            serverSocket=new DatagramSocket(port);
-            datagramPacket=new DatagramPacket(buffer,buffer.length);
-            //循环接受数据包
-            while (true){
-                ByteArrayInputStream bis=new ByteArrayInputStream(datagramPacket.getData());
-                ObjectInputStream ois=new ObjectInputStream(bis);
-                Object bufferObject=ois.readObject();
-                if (bufferObject instanceof Status){
-                    SessionMap.put(((Status) bufferObject).getSessionId(),((Status) bufferObject).getGameStatus());
-                }else {
-                    System.out.println(bufferObject.toString());
-                }
-            }
-        } catch (IOException | ClassNotFoundException e) {
+            Channel channel=bootstrap.bind(8000).sync().channel();
+
+        } catch (InterruptedException e) {
             e.printStackTrace();
+        }finally {
+            boss.shutdownGracefully();
+            worker.shutdownGracefully();
         }
+
+    }
+    public static void add(String sessionId, GameStatus gameStatus){
+        if (StringUtils.isNotEmpty(sessionId)&&gameStatus!=null) {
+            hashMap.put(sessionId, gameStatus);
+        }
+    }
+    public static GameStatus getGameStatus(String sessionId){
+        if (StringUtils.isNotEmpty(sessionId)){
+            return (GameStatus) hashMap.get(sessionId);
+        }
+        return null;
+    }
+    public static void main(String[] args) {
+        Server server=new Server();
+        server.start();
     }
 }

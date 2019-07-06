@@ -1,4 +1,4 @@
-package com.mine.six.view;
+package com.mine.six.gameclient;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;

@@ -137,7 +137,7 @@ public class GameController{
         }
     }
     public GameStatus getGameState(){
-        return new GameStatus(btns,pressed,mineMap,nums,flags,width,height,mineNum,flagNum,pressedNum,isEnd);
+        return new GameStatus(pressed,mineMap,nums,flags,width,height,mineNum,flagNum,pressedNum,isEnd);
     }
 
     public int countMinesAround(int x, int y){

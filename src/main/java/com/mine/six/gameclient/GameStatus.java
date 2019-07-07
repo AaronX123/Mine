@@ -10,10 +10,6 @@ import java.io.Serializable;
  */
 public class GameStatus implements Serializable {
     String sessionId;
-    /**
-     * 按钮
-     */
-    Button[][] btns;
 
     @Override
     public String toString() {
@@ -64,8 +60,7 @@ public class GameStatus implements Serializable {
     int pressedNum;
     boolean isEnd;
 
-    public GameStatus(Button[][] btns, boolean[][] pressed, boolean[][] mineMap, int[][] nums, boolean[][] flags, int width, int height, int mineNum, int flagNum, int pressedNum, boolean isEnd) {
-        this.btns = btns;
+    public GameStatus(boolean[][] pressed, boolean[][] mineMap, int[][] nums, boolean[][] flags, int width, int height, int mineNum, int flagNum, int pressedNum, boolean isEnd) {
         this.pressed = pressed;
         this.mineMap = mineMap;
         this.nums = nums;

@@ -1,2 +1,2 @@
 # Mine
-this is Mine project
+扫雷，联机功能未实现
